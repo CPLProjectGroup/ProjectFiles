@@ -1,0 +1,17 @@
+<program> ::= <statements>
+<statements> ::= <statement> | <statement> <statements>
+<statement> ::= <var_declaration> | <expression> | <print_statement> | <if_statement> | <function_declaration> | <function_call>
+<var_declaration> ::= IDENTIFIER EQUOP <expression> | IDENTIFIER <array_def>
+<array_def> ::= LB <expression> RB
+<expression> ::= <term> | <term> PLUS <term> | <term> MINUS <term> | <term> STAR <term> | <term> DIVOP <term>
+<term> ::= IDENTIFIER | UNSIGNICON | SIGNICON | <expression> | <function_call>
+<print_statement> ::= DISPLAY <expression_list>
+<expression_list> ::= <expression> | <expression> COMMA <expression_list>
+<if_statement> ::= IF <condition> THEN <statements> ENDIF
+<condition> ::= <expression> RELOP <expression> | NOT <condition>
+<function_declaration> ::= FUNCTION IDENTIFIER parameters IS <statements> ENDFUN IDENTIFIER
+<parameters> ::= PARAMETERS param_list | ε
+<param_list> ::= IDENTIFIER OF <data_type> | IDENTIFIER OF <data_type> COMMA <param_list>
+<data_type> ::= INTEGER | FLOAT | CHAR
+<function_call> ::= IDENTIFIER parguments
+<parguments> ::= LP <expression_list> RP
