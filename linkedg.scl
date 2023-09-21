@@ -1,0 +1,71 @@
+description
+   General interface file with single-linked specification.
+   Includes type definitions and and function prototypes.
+   
+   J M Garrido. Updated May 2020
+   Department of Computer Science 
+   Collete of Computing and Software Engineering
+   Kennesaw State University
+*/
+   
+import "scl.h"
+
+specifications
+
+struct node is               // node type
+  structures
+     define datablock pointer of type void
+     define link pointer of type NodeType 
+endstruct node
+//
+struct llist is             // structure for linked list
+  variables
+    define numnodes of type integer
+    define maxnodes of type integer
+    define sname array [30] of type char
+  structures
+    define Head of type NodePtrT          // head of list
+    define current of type NodePtrT
+endstruct llist    
+
+definetype struct node NodeType
+definetype pointer NodeType NodePtrT
+definetype struct llist listT
+
+forward declarations
+//
+function create_list return type void parameters plist pointer of type listT, 
+             maxn of type integer , 
+             pname pointer of type char
+function insert_front return type void parameters plist pointer of type listT, 
+             pnode of type NodeptrT
+
+function remove_front return type NodePtr
+          parameters plist pointer of type listT 
+function traverse_display return type void parameters plist pointer of type listT
+
+function empty_list return type bool parameters plist pointer of type listT
+
+function full_list return type bool parameters plist pointer of type listT
+ 
+function remove_node return type NodePtr parameters plist pointer of type listT,
+       lpos of type integer
+
+function get_front return type NodePtr parameters 
+       plist pointer of type listT 
+	   
+function get_next return type NodePtr parameters 
+       plist pointer of type listT                   
+	   
+function remove_last return type NodePtr parameters 
+       plist pointer of type listT                   // remove last node
+	   
+function csize return type integer parameters 
+       plist pointer of type listT  
+
+function insert_node return type void parameters plist pointer of type listT, 
+       pnode of type NodePtr, lposition of type integer    
+       
+function get_node return type NodePtr parameters plist pointer of type listT,
+       lpos of type integer
+

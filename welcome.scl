@@ -1,0 +1,17 @@
+description
+ Program     : welcome.scl
+ Author      : J M Garrido, November 20, 2019.
+ Description : Display welcome message on the screen
+    and the value of variable x.
+ */
+import "scl.h"
+implementations
+function main return type integer is
+variables
+    define x of type double   // a variable declaration
+begin
+    display "Welcome to the world of SCL"
+    set x = 45.95 	// assigns a value to variable x
+    display "Value of x: ", x
+    exit                      // execution terminates OK
+endfun main

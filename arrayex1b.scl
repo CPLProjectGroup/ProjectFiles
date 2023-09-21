@@ -1,0 +1,105 @@
+import "scl.h"
+description
+ Program: arrayex1.scl
+  Computes the maximum value in an array.
+  J Garrido Updated 1-7-2018
+*/ 
+symbol MM 45
+symbol NHG 4524h
+symbol MYHV 0ACDFh
+symbol MYSHV 0F5h
+
+forward declarations
+function max_array return type integer 
+ parameters 
+       a array [] of type integer, 
+       num_elements of type integer
+
+  
+specifications
+
+enumerate week is
+    Monday, Tuesday, Wednesday
+endenum week
+
+struct  stname is
+variables
+     define xcoord of type double
+	 define ycoord of type double
+	 define title array[] of type char
+endstruct stname
+
+global declarations
+
+constants
+   define MAX  = 45 of type integer
+   define ARRAY_SIZE = 50 of type integer
+variables
+   define varm2 array[MM] of type float
+   define var3 = 2154.55e05 of type double 
+   
+structures 
+   define strname of struct stname
+   define var6 of enum week
+
+implementations
+ 
+description
+  This program computes the maximum value in an array */
+  function main is
+    variables
+       define marray array [MAX] of type integer
+       define max_val of type integer
+       define kelements of type integer
+       define j of type integer
+       define mybhvar of type byte
+       define myihvar of type integer
+	   define xc of type double
+    begin
+      set mybhvar = 0ADh
+      set myihvar = MYHV
+      set mybhvar = MYSHV
+      set mybhvar = (mybhvar lshift 2)
+      input "Number of elements to process: ", kelements      
+      for j = 0 to kelements -1 do
+         input "Enter element int value: " , marray [j] 
+      endfor
+      set max_val = max_array(marray, kelements)      
+      display "Max Integer found: ", max_val
+	  set xc = strname.xcoord
+	  display "xc: ", xc
+      exit
+  endfun main 
+ 
+description
+         The following function definition finds the maximum value
+          in an integer array. To invoke the function, two arguments
+          are used: the integer array and the current number of 
+          elements in the array.
+*/
+  function  max_array return type integer
+   parameters 
+       a array[] of type integer,
+       num_elements of type integer
+   is
+   variables                            // local variables
+       define i of type integer         // used as index of the array
+       define max_elem of type integer  // maximum value found so far
+       define hh of type float
+   begin
+       set i = 1
+       set max_elem = a[0]
+       // display "initial max_elem: ", max_elem
+       while i < num_elements do
+           if a[i] > max_elem
+           then
+               set max_elem = a[i]
+               set hh = varm2[i]^3
+               // display "max_elem: ", max_elem
+           endif
+           increment i
+       endwhile
+       return max_elem
+  endfun max_array
+
+ 

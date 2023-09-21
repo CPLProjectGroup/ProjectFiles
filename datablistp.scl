@@ -1,0 +1,184 @@
+description
+  datablistp.scl
+  This program shows how to create nodes and various ways 
+  to link them in a linked list using data blocks.
+  The linked list is implemented in library 'linked'.
+  J. M. Garrido Feb. 2020
+  */
+import <stdio.h>
+import <stdlib.h>
+import <string.h>
+import "basic_lib.h"
+import "linked.h"
+
+specifications
+
+struct Datablock is              // data block type
+ variables
+     define stname array [31] of type char
+     define age of type integer
+     define jobcode of type integer
+endstruct Datablock
+
+definetype struct Datablock DataT
+
+forward declarations
+
+function make_dblock return pointer type DataT parameters
+      nname pointer of type char, nage of type integer, njobcode of type integer 
+function display_data return type void parameters pdata pointer of type DataT
+function traverse_display return type void parameters plist pointer of type listT
+
+implementations
+
+function main return type integer is
+  // local data definitions
+  variables
+     define max_nodes of type integer
+	 define cname array [30] of type char
+  structures
+     define mlist of type listT
+     define clist pointer of type listT
+     define dblock pointer of type DataT
+	 define nodePtr of type nodePtrT
+  begin
+     set clist = address mlist  
+     call create_list using clist, 40, "Data list"      // create empty linked list
+	 
+     // create data block
+     set dblock = make_dblock("John Doe", 38, 1523)
+	 
+	 // create node with data block
+	 create nodePtr type NodeType 
+	 // set nodePtr->datablock = dblock
+	 set xxx = dblock
+	 // now node to front of list
+	 display "Inserting node to front of list"
+     call insert_front using clist, nodePtr
+	 
+	 // create another data block
+     set dblock = make_dblock("Joseph Hunt", 59, 1783)
+	 // create node with data block
+	 // create nodePtr type NodeType 
+	 set nodePtr->datablock = dblock
+     call insert_front using clist, nodePtr
+	 
+     set dblock = make_dblock("William Dash", 49, 2581)
+	 // create nodePtr type NodeType 
+	 set nodePtr->datablock = dblock
+     call insert_front using clist, nodePtr
+     
+     call traverse_display using clist    // display all blocks in list
+	 
+     display "Removing front: "
+	 set nodePtr = remove_front(clist)
+     set dblock = nodePtr->dblock
+     call display_data using dblock
+	 
+	 // node and data block to be deleted
+	 destroy nodePtr
+	 destroy dblock
+	  
+     call traverse_display using clist    // display all blocks in list 
+	 
+     set dblock = make_dblock("David Winemaker", 48, 1854)
+     
+     call display_data using dblock
+	 create nodePtr type NodeType 
+	 set nodePtr->datablock = dblock
+	 
+	 display "Inserting node to pos 2: "
+     call insert_node using clist, nodePtr, 2
+     call traverse_display using clist
+	 
+     set dblock = make_dblock("Mary Washington", 54, 1457)
+     display "Inserting 3: "  
+     call display_data using dblock
+	 create nodePtr type NodeType 
+	 set nodePtr->datablock = dblock
+     call insert_node using clist, dblock, 3
+     call traverse_display using clist
+	 
+     display "Inserting front: "
+     set dblock = make_dblock("Ann Smith", 44, 1568)
+     call display_data using dblock
+	 
+	 create nodePtr type NodeType 
+	 set nodePtr->datablock = dblock
+	 
+     call insert_front using clist, nodePtr
+     call traverse_display using clist
+     
+	 display "Remove node 2 "
+     set nodePtr = remove_node(clist, 2)
+	 set dblock = nodePtr->datablock
+     call display_data using dblock
+     call traverse_display using clist
+     
+	 destroy nodePtr
+	 destroy dblock
+	 
+     display "Removing last node"
+     set nodePtr = remove_last(clist)
+	 set dblock = nodePtr->datablock
+     call display_data using dblock
+	 
+     call traverse_display using clist
+     destroy nodePtr
+	 destroy dblock
+     return 0
+endfun main
+//
+function make_dblock return pointer type DataT
+    parameters pname pointer of type char, page of type integer, 
+	   pjobcode of type integer is
+  variables
+    define dbsize of type integer
+  structures
+    define ldatab pointer of type DataT 
+begin
+    // allocate memory for datablock
+	create ldatab type DataT
+    call strcpy using ldatab->name, pname
+    set ldatab->age = page
+    set ldatab->jobcode = pjobcode
+    return ldatab
+endfun make_dblock
+//  
+// display data block
+function display_data return type void parameters pblock pointer of type DataT is
+   variables
+	  define lname array[30] of type char
+      define ljobc of type integer
+      define lage of type integer	  
+begin
+    call strcpy using lname, pblock->name
+	set ljobc = pblock->jobcode
+	set lage = pblock->age
+    display "Data name: ", lname
+	display "Data age: ", lage
+	display "Data job code: ", ljobc        
+endfun display_data
+
+//
+function traverse_display return type typee  parameters plist pointer of type listT is
+variables   
+   define i of type integer
+structures
+   define lblock pointer of type DataT
+   define cnodePtr of type nodePtrT
+begin
+   display "Traverse and display data in list"
+   if plist->numnodes <= 0 then
+      return
+   endif
+   set cnodePtr = get_front(plist)      // get node at front of list 
+   set lblock = cnodePtr->datablock    // get data block from node
+   call display_data using lblock
+   for i=2 to plist->numnodes loop
+      set cnodePtr = get_next(plist)        // get next node from list
+      set lblock = cnoPtr->datablock      // get data block
+      call display_data using lblock
+   endfor
+endfun traverse_display 
+

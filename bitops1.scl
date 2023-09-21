@@ -1,0 +1,60 @@
+import "sysplm.h"
+description
+   Program: bitops1.scl
+   Test the Sysplm with several bitwise operations
+   J Garrido March 2018.
+*/    
+symbol MM 066h     // 0110 0110
+symbol MN 0B3h     // 1011 0011
+       
+global declarations
+variables
+   define a of type unsigned integer
+   define b of type unsigned short
+   define c of type unsigned long
+
+   implementations
+
+  description
+      This is the main function of the application.
+      */
+  function main is
+    variables
+       define vara of type byte
+       define varb of type byte
+       define varc1 of type byte
+       define varc2 of type byte
+       define varc3 of type byte
+       define varc4 of type byte
+       define d1 of type byte
+       define d2 of type byte
+    begin
+      set vara = MM   // 0110 0110
+      set varb = MN   // 1011 0011
+      set varc1 = vara band varb
+      set varc2 = vara bor varb
+      set varc3 = vara bxor varb
+      set varc4 = negate vara
+      display varc1, " ", varc2, " ", varc3, " ", varc4       
+
+      //
+      // Using a mask to select or alter bits
+      set varc1 = vara band 0FEh // clear bit 0 (lowest bit)
+      set varc2 = vara band 01h  // clear all except bit 0
+      set varc3 = vara bor 01h   // set bit 0
+      set varc4 = vara bxor 01h  // complement bit 0
+      display varc1, " ", varc2, " ", varc3, " ", varc4       
+
+      set d1 = (vara lshift 3)
+      set d2 = (varb rshift 2) 
+      display "d1: ", d1, " d2: ", d2
+      //
+      set a = d1         // move d1 to (low byte) of a
+      display "a: ", a
+      set a = a lshift 8 // shift to high byte of a
+      display "a: ", a   
+      set a = a bor d2   // copy d2 to low byte of a
+      display "a: ", a
+      exit
+  endfun main 
+
