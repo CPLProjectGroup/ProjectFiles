@@ -10,7 +10,7 @@ TOKEN_TYPES = [
     ("PLUS", r"\+"),
     ("MINUS", r"\-"),
     ("STAR", r"\*"),
-    ("DIVOP", r"/"),
+    ("DIVOP", r"[^(//)\"][0-9A-Za-z]*/[0-9A-Za-z]*"),
     ("EQUOP", r"="),
     ("RELOP", r"(==|!=|<|<=|>|>=)"),
     ("LB", r"\["),
