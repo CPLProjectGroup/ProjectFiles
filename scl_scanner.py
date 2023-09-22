@@ -4,21 +4,21 @@ import json
 #Define Keywords and token types
 KEYWORDS = ["DISPLAY", "IF", "THEN", "ENDIF", "FUNCTION", "IS", "ENDFUN", "PARAMETERS", "INTEGER", "FLOAT", "CHAR", "NOT"]
 TOKEN_TYPES = [
-    ("IDENTIFIER", r"\b[A-Za-z_][A-Za-z0-9_]*\b"), #Alphanumeric Identifier
-    ("UNSIGNICON", r"\b\d+\b"), #Unsigned integers
-    ("SIGNICON", r"[-+]?\b\d+\b"), #Signed integers
-    ("PLUS", r"\+"),    #Addition Operator
-    ("MINUS", r"\-"),   #Subtraction Operator
-    ("STAR", r"\*"),    #Multiplication Operator
-    ("DIVOP", r"[^(//)\"][0-9A-Za-z]*/[0-9A-Za-z]*"),    #Division Operator
-    ("EQUOP", r"="),    #Assignment Operator
-    ("RELOP", r"(==|!=|<=|>=|<|>)"), #Relational Operators
-    ("LB", r"\["),    #Left Bracket 
-    ("RB", r"\]"),    #Right Bracket    
-    ("LP", r"\("),    #Left Parenthesis
-    ("RP", r"\)"),    #Right Parenthesis
-    ("COMMA", r","),  #Comma
-    ("OF", r"OF")     #Of Keyword
+    ("IDENTIFIER", r"\b[A-Za-z_][A-Za-z0-9_]*\b"),          #Alphanumeric Identifier
+    ("UNSIGNICON", r"\b\d+\b"),                             #Unsigned integers
+    ("SIGNICON", r"[-+]?\b\d+\b"),                          #Signed integers
+    ("PLUS", r"\+"),                                        #Addition Operator
+    ("MINUS", r"\-"),                                       #Subtraction Operator
+    ("STAR", r"\*"),                                        #Multiplication Operator
+    ("DIVOP", r"[^(//)\"][0-9A-Za-z]*/[0-9A-Za-z]*"),       #Division Operator
+    ("EQUOP", r"="),                                        #Assignment Operator
+    ("RELOP", r"(==|!=|<=|>=|<|>)"),                        #Relational Operators
+    ("LB", r"\["),                                          #Left Bracket 
+    ("RB", r"\]"),                                          #Right Bracket    
+    ("LP", r"\("),                                          #Left Parenthesis
+    ("RP", r"\)"),                                          #Right Parenthesis
+    ("COMMA", r","),                                        #Comma
+    ("OF", r"OF")                                           #Of Keyword
 ]
 
 #Function to tokenize the source code
