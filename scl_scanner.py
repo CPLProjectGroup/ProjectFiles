@@ -4,6 +4,7 @@ import json
 #Define Keywords and token types
 KEYWORDS = ["DISPLAY", "IF", "THEN", "ENDIF", "FUNCTION", "IS", "ENDFUN", "PARAMETERS", "INTEGER", "FLOAT", "CHAR", "NOT"]
 TOKEN_TYPES = [
+    ("OF", r"OF"),                                          #Of Keyword
     ("IDENTIFIER", r"\b[A-Za-z_][A-Za-z0-9_]*\b"),          #Alphanumeric Identifier
     ("UNSIGNICON", r"\b\d+\b"),                             #Unsigned integers
     ("SIGNICON", r"[-+]?\b\d+\b"),                          #Signed integers
@@ -18,7 +19,8 @@ TOKEN_TYPES = [
     ("LP", r"\("),                                          #Left Parenthesis
     ("RP", r"\)"),                                          #Right Parenthesis
     ("COMMA", r","),                                        #Comma
-    ("OF", r"OF")                                           #Of Keyword
+    ("STRING_LITERAL", r"\".*?\"")                          # String literals
+    
 ]
 
 #Function to tokenize the source code

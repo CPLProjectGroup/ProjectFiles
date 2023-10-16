@@ -1,0 +1,41 @@
+x = 10
+y = x + 5
+z = x - y
+product = x * y
+quotient = y / 5
+
+arr[10] = x
+arr[2] = arr[10] + 5
+arr[3] = arr[2] * 2
+
+
+DISPLAY x
+DISPLAY y, z, product, quotient
+DISPLAY arr[2]
+DISPLAY arr[3]
+
+
+IF x > 5 THEN
+    DISPLAY "X is greater than 5"
+ENDIF
+
+IF y < 10 THEN
+    DISPLAY "Y is less than 10"
+ENDIF
+
+
+FUNCTION add_numbers PARAMETERS a OF INTEGER, b OF INTEGER IS
+    result = a + b
+    DISPLAY result
+ENDFUN add_numbers
+
+sum = add_numbers(x, y)
+DISPLAY sum
+
+FUNCTION multiply_numbers PARAMETERS m OF INTEGER, n OF INTEGER IS
+    multiplication = m * n
+    DISPLAY multiplication
+ENDFUN multiply_numbers
+
+product_result = multiply_numbers(x, y)
+DISPLAY product_result
