@@ -15,6 +15,36 @@ def analyze(line_of_code, context):
     # Split the line into tokens
     tokens = line_of_code.split()
 
+
+    # Handling list creation and modification: Identifier[Integer] = Identifier[Integer] op Integer
+    if len(tokens) == 11 and tokens[6] == '[':
+        #First List
+        list_name = tokens[0]
+        index = tokens[2]
+        idex = int(index)
+
+        #Second List
+        list_name2 = tokens[5]
+        index2 = tokens[7]
+        idex2 = int(index2)
+
+        #Operation and last integer
+        ops = ['+','-','/','*']
+        op = tokens[9]
+        number = tokens[10]
+        
+        # Check if the lists exists, if not, create it
+        if list_name not in context:
+            context[list_name] = []
+
+        if list_name2 not in context:
+            context[list_name2] = []
+
+        # Generate the code and execute it
+        context[list_name][idex] = eval(f'{context[list_name][idex2]} {op} {number}')
+        print(context[list_name][idex])
+
+
     # Handling list creation and modification: Identifier[Integer] = Identifier
     if len(tokens) == 6 and tokens[1] == '[' and tokens[3] == ']' and tokens[4] == '=':
         list_name = tokens[0]
@@ -33,7 +63,7 @@ def analyze(line_of_code, context):
                 value = context[value_identifier]
                 # Ensure the list is large enough
                 while len(context[list_name]) <= idx:
-                    context[list_name].append(None)
+                    context[list_name].append(0)
                 context[list_name][idx] = value
             except ValueError:
                 print(f"Error: Index '{index}' is not a valid integer")
