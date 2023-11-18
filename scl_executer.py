@@ -15,6 +15,12 @@ def analyze(line_of_code, context):
     # Split the line into tokens
     tokens = line_of_code.split()
 
+    # String Literal assignments
+    if tokens[1] == '=' and type(tokens[2]) == str:
+        context[tokens[0]] = tokens[2].replace('"', '')
+        for token in tokens[3:]:
+            context[tokens[0]] += ' ' + token.replace('"', '')
+        
 
     # Handling list creation and modification: Identifier[Integer] = Identifier[Integer] op Integer
     if len(tokens) == 11 and tokens[6] == '[':
