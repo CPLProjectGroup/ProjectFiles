@@ -19,25 +19,34 @@ def analyze(line_of_code, context):
     tokens = line_of_code.split()
     
     
-    
+    #Handling If Statement
     if tokens[0] == 'IF':
+        #Evaluate Condition within IF statement
         condition = ' '.join(tokens[1:-1])
+        # Set execution flag based on true value
         context["__execute"] = evaluate_condition(condition, context)
+        #Indicate inside if-then-else block
         context["__in_if_block"] = True
         context["__skip_else"] = context["__execute"]  # Skip ELSE block if THEN is executed
         return
+    #Handling 'ELSE' statement
     elif tokens[0] == 'ELSE':
+        #If THEN block was executed set execute flag to false to skip ELSE block
         if context["__skip_else"]:
             context["__execute"] = False  # Skip execution in ELSE block
+        #If THEN block was not executed invert flag to execute ELSE block
         else:
             context["__execute"] = not context["__execute"]
         return
+    # Handling ENDIF
     elif tokens[0] == 'ENDIF':
+        # Reset if-then-else flags
         context["__in_if_block"] = False
         context["__skip_else"] = False
+        #Reset execute flag to true
         context["__execute"] = True
         return
-
+    # Skip execution of the line if we are inside an if-then-else block AND the execution flag is set to False
     if context.get("__in_if_block") and not context.get("__execute"):
         return
 
