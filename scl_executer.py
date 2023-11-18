@@ -1,20 +1,49 @@
 import json
 import argparse
 
+def evaluate_condition(condition, context):
+    try:
+        return eval(condition, {}, context)  # Use context as local variables for eval
+    except Exception as e:
+        print(f"Error evaluating condition '{condition}': {e}")
+        return False
+
 def analyze(line_of_code, context):
     """
     Modified function to analyze and execute or display a line of code.
     - Handles various operations like variable assignment, arithmetic operations, list creation, display, and list element display.
     """
-    # Skip empty lines
-    if not line_of_code.strip():
+    if not line_of_code.strip() or context["__skip_until"]:
+        return
+
+    tokens = line_of_code.split()
+    
+    
+    
+    if tokens[0] == 'IF':
+        condition = ' '.join(tokens[1:-1])
+        context["__execute"] = evaluate_condition(condition, context)
+        context["__in_if_block"] = True
+        context["__skip_else"] = context["__execute"]  # Skip ELSE block if THEN is executed
+        return
+    elif tokens[0] == 'ELSE':
+        if context["__skip_else"]:
+            context["__execute"] = False  # Skip execution in ELSE block
+        else:
+            context["__execute"] = not context["__execute"]
+        return
+    elif tokens[0] == 'ENDIF':
+        context["__in_if_block"] = False
+        context["__skip_else"] = False
+        context["__execute"] = True
+        return
+
+    if context.get("__in_if_block") and not context.get("__execute"):
         return
 
     print(f"Executing line: {line_of_code}")
 
-    # Split the line into tokens
-    tokens = line_of_code.split()
-
+   
     # String Literal assignments
     if tokens[1] == '=' and type(tokens[2]) == str:
         context[tokens[0]] = tokens[2].replace('"', '')
@@ -126,13 +155,13 @@ def analyze(line_of_code, context):
             elif identifier:
                 print(f"Identifier '{identifier}' not found")
 
-
-def process_tokens(data):
+    
+def process_tokens(data, context):
     """
     Processes the tokens from the JSON data to construct and analyze lines of code.
     """
     current_line = []
-    context = {}  # Initialize a context dictionary to store variable assignments
+    
     for token in data:
         if token[0] == '<EOL>':
             line_of_code = ' '.join([t[1] for t in current_line])
@@ -143,9 +172,11 @@ def process_tokens(data):
 
 
 def main(file_path):
+    context = {
+        "__if_state": None, "__skip_until": None}
     with open(file_path, 'r') as file:
         data = json.load(file)
-    process_tokens(data)
+    process_tokens(data, context)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process a JSON file of code tokens.')

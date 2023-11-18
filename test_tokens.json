@@ -1,0 +1,12 @@
+[
+    ["IDENTIFIER", "x"], ["EQUOP", "="], ["UNSIGNICON", "10"], ["<EOL>", "<EOL>"],
+    ["IDENTIFIER", "y"], ["EQUOP", "="], ["UNSIGNICON", "5"], ["<EOL>", "<EOL>"],
+    ["IDENTIFIER", "result"], ["EQUOP", "="], ["IDENTIFIER", "x"], ["PLUS", "+"], ["IDENTIFIER", "y"], ["<EOL>", "<EOL>"],
+    ["IF", "IF"], ["IDENTIFIER", "x"], ["RELOP", ">"], ["IDENTIFIER", "y"], ["THEN", "THEN"], ["<EOL>", "<EOL>"],
+    ["IDENTIFIER", "z"], ["EQUOP", "="], ["UNSIGNICON", "20"], ["<EOL>", "<EOL>"],
+    ["ELSE", "ELSE"], ["<EOL>", "<EOL>"],
+    ["IDENTIFIER", "z"], ["EQUOP", "="], ["UNSIGNICON", "15"], ["<EOL>", "<EOL>"],
+    ["ENDIF", "ENDIF"], ["<EOL>", "<EOL>"],
+    ["DISPLAY", "DISPLAY"], ["IDENTIFIER", "result"], ["<EOL>", "<EOL>"],
+    ["DISPLAY", "DISPLAY"], ["IDENTIFIER", "z"], ["<EOL>", "<EOL>"]
+]
