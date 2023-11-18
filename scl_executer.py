@@ -1,11 +1,24 @@
 import json
 import argparse
+skipline = 0
 
 def analyze(line_of_code, context):
+    global skipline 
     """
     Modified function to analyze and execute or display a line of code.
     - Handles various operations like variable assignment, arithmetic operations, list creation, display, and list element display.
     """
+    
+    #Checking if line ends an IF Statment
+    if 'ENDIF' in line_of_code:
+        skipline = 0
+        return
+    
+    #Checking if skipline is enabled
+    if skipline == 1:
+        return
+
+    
     # Skip empty lines
     if not line_of_code.strip():
         return
@@ -15,12 +28,46 @@ def analyze(line_of_code, context):
     # Split the line into tokens
     tokens = line_of_code.split()
 
+    #Handle IF Statements
+    if 'IF' in line_of_code and 'THEN' in line_of_code:
+        # Find the positions of 'IF' and 'THEN'
+        start = line_of_code.find('IF') + len('IF')
+        end = line_of_code.find('THEN')
+
+        # Extract the condition and strip any leading/trailing whitespace
+        condition = line_of_code[start:end].strip()
+        context[condition] = condition
+
+        # Evaluate the condition
+        try:
+            x = 6
+            y = 11
+
+            # Evaluate the condition
+            if not eval(condition):
+                skipline = 1
+                print("Condition is false, setting skipline to 1")
+                return
+                
+                
+        except Exception as e:
+            print(f"Error evaluating condition: {e}")
+            
+            
     # String Literal assignments
-    if tokens[1] == '=' and type(tokens[2]) == str:
+    if len(tokens) == 3 and tokens[1] == '=' and type(tokens[2]) == str:
         context[tokens[0]] = tokens[2].replace('"', '')
         for token in tokens[3:]:
             context[tokens[0]] += ' ' + token.replace('"', '')
-        
+
+
+    # DISPLAY String Literal
+    if len(tokens) > 3 and tokens[0] == 'DISPLAY' and type(tokens[1]) == str and '[' not in tokens:
+        value = tokens[1].replace('"', '')
+        for token in tokens[2:]:
+            value += " " + token.replace('"','')   
+        print(value)
+        return
 
     # Handling list creation and modification: Identifier[Integer] = Identifier[Integer] op Integer
     if len(tokens) == 11 and tokens[6] == '[':
@@ -131,8 +178,10 @@ def process_tokens(data):
     """
     Processes the tokens from the JSON data to construct and analyze lines of code.
     """
+
     current_line = []
     context = {}  # Initialize a context dictionary to store variable assignments
+    
     for token in data:
         if token[0] == '<EOL>':
             line_of_code = ' '.join([t[1] for t in current_line])
