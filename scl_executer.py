@@ -18,11 +18,11 @@ def analyze(line_of_code, context):
     if skipline == 1:
         return
 
-    
     # Skip empty lines
     if not line_of_code.strip():
         return
 
+    # Logs which line is being executed
     print(f"Executing line: {line_of_code}")
 
     # Split the line into tokens
@@ -40,16 +40,10 @@ def analyze(line_of_code, context):
 
         # Evaluate the condition
         try:
-            x = 6
-            y = 11
-
             # Evaluate the condition
-            if not eval(condition):
+            if not eval(condition,context):
                 skipline = 1
-                print("Condition is false, setting skipline to 1")
                 return
-                
-                
         except Exception as e:
             print(f"Error evaluating condition: {e}")
             
@@ -62,7 +56,7 @@ def analyze(line_of_code, context):
 
 
     # DISPLAY String Literal
-    if len(tokens) > 3 and tokens[0] == 'DISPLAY' and type(tokens[1]) == str and '[' not in tokens:
+    if len(tokens) > 3 and tokens[0] == 'DISPLAY' and type(tokens[1]) == str and '[' not in tokens and ',' not in tokens:
         value = tokens[1].replace('"', '')
         for token in tokens[2:]:
             value += " " + token.replace('"','')   
