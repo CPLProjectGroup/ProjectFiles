@@ -36,7 +36,6 @@ def analyze(line_of_code, context):
 
         # Extract the condition and strip any leading/trailing whitespace
         condition = line_of_code[start:end].strip()
-        context[condition] = condition
 
         # Evaluate the condition
         try:
@@ -49,7 +48,7 @@ def analyze(line_of_code, context):
             
             
     # String Literal assignments
-    if len(tokens) == 3 and tokens[1] == '=' and type(tokens[2]) == str:
+    if len(tokens) >= 3 and '"' in tokens[2]:
         context[tokens[0]] = tokens[2].replace('"', '')
         for token in tokens[3:]:
             context[tokens[0]] += ' ' + token.replace('"', '')
